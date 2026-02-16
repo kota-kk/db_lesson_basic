@@ -1,27 +1,27 @@
 -- Q1
-create table departments (
- department_id int unsigned auto_increment not null primary key comment 'auto_increment',
- name varchar(20) not null,
- created_at timestamp default current_timestamp comment 'DEFAULT_GENERATED',
- updated_at timestamp default current_timestamp on update CURRENT_TIMESTAMP comment 'DEFAULT_GENERATED on update CURRENT_TIMESTAMP'
+CREATE TABLE departments (
+ department_id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY COMMENT 'auto_increment',
+ name VARCHAR(20) NOT NULL,
+ created_at TIMESTAMP DEFAULT current_timestamp COMMENT 'DEFAULT_GENERATED',
+ updated_at TIMESTAMP DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP COMMENT 'DEFAULT_GENERATED on update CURRENT_TIMESTAMP'
  );
 
 -- Q2
 ALTER TABLE
  people
-add COLUMN
+ADD COLUMN
  department_id
- INT unsigned
- default null
- comment 'emailの後ろに追加する'
-after
+ INT UNSIGNED
+ DEFAULT NULL
+ COMMENT 'emailの後ろに追加する'
+AFTER
  email;
 
 
 -- Q3
-insert into
+INSERT INTO
  departments (name)
-values
+VALUES
  ('営業'),
  ('開発'),
  ('経理'),
@@ -30,23 +30,24 @@ values
 
 
 -- Q4
-update people
-set
+UPDATE
+ people
+SET
  department_id = 1
-where
- department_id is null;
+WHERE
+ department_id IS NULL;
 
 
 -- Q5
-select
+SELECT
  name,
  age
-from
+FROM
  people
-where
+WHERE
  gender = 1
-order by
- age desc;
+ORDER BY
+ age DESC;
 
 
 -- Q6
@@ -67,71 +68,70 @@ ORDER BY -- レコードの並び順は
 
 
 -- Q7
-select
+SELECT
  name
-from
+FROM
  people
-where (
+WHERE (
   gender = 2
  AND
-  age like '2%'
-) or (
+  age BETWEEN '20' AND '29'
+) OR (
   gender = 1
  AND
-  age like '4%'
+  age BETWEEN '40' AND '49'
 );
 
 
 -- Q8
-select
+SELECT
  p.*
-from
- people as p
-inner join
- departments as d
-where
+FROM
+ people AS p
+INNER JOIN
+ departments AS d
+WHERE
  d.name = '営業';
 
 
 -- Q9
-select
+SELECT
  avg(age)
-from
- people as p
-inner join
- departments as d
-where
+FROM
+ people AS p
+INNER JOIN
+ departments AS d
+WHERE
  d.name = '開発';
 
 
 -- Q10
-select
+SELECT
  r.content,
- p.name as username,
- d.name as department
-from
- people as p
-inner join
- reports as r
-on
+ p.name AS username,
+ d.name AS department
+FROM
+ people AS p
+INNER JOIN
+ reports AS r
+ON
  p.person_id = r.person_id
-inner join departments as d
-on
+INNER JOIN departments AS d
+ON
  p.department_id = d.department_id
-where
- r.content is not null;
+WHERE
+ r.content IS NOT NULL;
 
 
 -- Q11
-select distinct
+SELECT DISTINCT
  p.name
-from
- people as p
-left join
- reports as r
-on
+FROM
+ people AS p
+LEFT JOIN
+ reports AS r
+ON
  p.person_id = r.person_id
-where
- r.content is null;
-
+WHERE
+ r.content IS NULL;
 
